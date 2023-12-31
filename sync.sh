@@ -1,16 +1,30 @@
 #!/bin/bash
 
-# sync.sh
-# Uses the "rsync sync" command to sync files in $RSYNC_PATHS
+source .env
 
-# Internal Field Separator
-IFS=','
+# IGNORE_DIRS is a comma separated string which we convert into an array
+IFS=',' read -ra ignore_dirs_arr <<< $IGNORE_DIRS
 
-# The RSYNC_SOURCE_PATHS env variable should be a comma separated string
-read -ra array <<< "$RSYNC_SOURCE_PATHS"
+# use an associate array to list out directories to ignore
+declare -A ignore_dirs
+for dir in "${ignore_dirs_arr[@]}"; do
+    ignore_dirs["$dir"]=1
+done
 
-# TODO: set up "rsync sync"
-for element in "${array[@]}"; do
-    echo "$element"
+for dir in $RCLONE_SOURCE_PATH*/; do
+    # remove tailing backslash
+    new_dir="${dir%*/}"
+
+    # retrieve directory name after the final backslash
+    dir_name="${new_dir##*/}"
+
+    # only sync directories that aren't ignored
+    if [[ ! -v ignore_dirs["$dir_name"] ]]; then
+	source="$dir"
+	dest="$RCLONE_DEST_PATH$dir_name"
+	
+	# TODO: set up dry run arg for script
+	rclone sync -v $source $dest
+    fi
 done
 
