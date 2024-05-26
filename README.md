@@ -12,7 +12,7 @@ Scripts to automate rclone commands
 - `IGNORE_DIRS` (optional) - A comma separated string of directory paths from `RCLONE_SOURCE_PATH` to skip. These won't be synced. e.g.
 
     ```shell
-    IGNORE_DIRS="/ignore1/,/ignore2/,/also/ignore/this/"
+    IGNORE_DIRS="/ignore1/,/ignore2/,/ignore3/"
     ```
 
 ## Scripts
