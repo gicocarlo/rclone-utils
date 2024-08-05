@@ -24,7 +24,7 @@ for dir in $RCLONE_SOURCE_PATH*/; do
 	dest="$RCLONE_DEST_PATH$dir_name"
 	
 	# TODO: set up dry run arg for script
-	rclone sync -v $source $dest
+	rclone sync -v --exclude ".**" $source $dest
     fi
 done
 
