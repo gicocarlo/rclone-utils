@@ -1,0 +1,8 @@
+services:
+  web:
+    image: gicocarlo/rclone-utils:latest
+    container_name: rclone-utils
+    volumes:
+      - ./data:/data # Replace this with paths to storage
+    restart: unless-stopped
+
